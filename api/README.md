@@ -30,6 +30,18 @@ Not: 8080 bu makinede başka bir konteyner tarafından kullanılıyor; `.env` i�
 5. A10 kabul testi (çalışan API'ye karşı; P999/P998 test katılımcılarını oluşturup siler):
    `HS_APP_KEY=… HS_ADMIN_KEY=… npm run a10` · Anahtar iptali: `npm run key:revoke -- --id <uuid>`
 
+## Vercel'e deploy
+
+- **Root Directory:** `api` (Project Settings → Build and Deployment). Vercel Fastify'ı algılar ve giriş olarak
+  `src/index.ts`'i kullanır (default export = istek işleyici). `src/createApp.ts` bilinçli olarak `app` adında değil:
+  Vercel `src/app.*`'i `src/index.*`'ten önce arar.
+- **Environment Variables** (Production + Preview): `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`; isteğe bağlı
+  `STORAGE_BUCKET`, `LOG_LEVEL`, `RATE_LIMIT_PER_MIN`. `SUPABASE_DB_URL` Vercel'e **konmaz** (yalnızca migration).
+  Eksikse her istek `500 server misconfigured` döner ve ayrıntı Vercel loglarına yazılır.
+- Sınırlar: Vercel Functions istek gövdesi en fazla **4,5 MB**; parçalar ~15–75 KB olduğu için sorun değil
+  (`MAX_CHUNK_BYTES` 5 MB'tan küçük tutulabilir). Rate limit ve anahtar önbelleği örnek (instance) başına bellektedir.
+- Uygulamada API adresi: research-app → Ayarlar → `https://<proje>.vercel.app`.
+
 ## Uçlar
 
 | Uç | Rol | Not |

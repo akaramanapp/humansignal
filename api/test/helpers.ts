@@ -1,7 +1,7 @@
 import { gzipSync } from 'node:zlib';
 import { randomUUID } from 'node:crypto';
 import type { FastifyInstance } from 'fastify';
-import { buildApp } from '../src/app.js';
+import { buildApp } from '../src/createApp.js';
 import { MemoryBackend } from '../src/backend/memory.js';
 import { sha256Hex } from '../src/util.js';
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { randomUUID } from 'node:crypto';
-import { buildApp } from '../src/app.js';
+import { buildApp } from '../src/createApp.js';
 import { KeyAuth } from '../src/auth.js';
 import { MemoryBackend } from '../src/backend/memory.js';
 import { sha256Hex } from '../src/util.js';

@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { buildApp } from './app.js';
+import { buildApp } from './createApp.js';
 import { createBackend } from './backend/index.js';
 import { loadConfig } from './config.js';
 
