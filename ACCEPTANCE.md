@@ -17,7 +17,7 @@ Tarih: 2026-11-12 · Ortam: Pixel_5 emülatörü (API 30); **gerçek cihaz: Huaw
 
 ## Gerçek cihazdan veri notları (model için)
 
-- `dev` gerçek dokunmatik ekranda pozitif (5); enjekte olaylarda -1 (`humanlike` bot dahil).
+- `dev`: gerçek dokunmatik ekranda pozitif (5). Enjekte olaylarda Android 11+ (emülatör, API 30) **-1**, ama Android 10'da (Huawei) `adb input` da **5** veriyor: `dev` Android sürümüne bağlı, tek başına güvenilir bot sinyali değil. `tool = unknown` ve 0 ms DOWN→UP her iki cihazda da tutarlı.
 - Huawei basıncı 0–1 aralığında **normalize etmiyor** (ortalama 5,2, sd 2,6): basınç cihaz başına normalize edilmeli.
 - `emulator_hints` bu gerçek cihazda da `sensor:aosp` içeriyor (AOSP yazılım sensörleri): tek başına bot sinyali değildir.
 

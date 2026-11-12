@@ -17,8 +17,8 @@ import java.lang.reflect.Method;
  *   Q                     çık
  * Argüman: [deviceId]  (verilmezse ilk fiziksel dokunmatik ekranın id'si)
  *
- * Gözlem (API 30 emülatör): sistem enjekte edilen olayların deviceId'sini yine -1 olarak teslim ediyor; yani
- * bu bot bile `dev = -1` sinyali taşır. Aracı, finger/basınç/boyut/geçmiş örnekleri gerçekçi üretir; deviceId'yi değil.
+ * Gözlem: API 30 emülatörde sistem enjekte edilen olayların deviceId'sini -1 olarak teslim ediyor; Android 10 gerçek
+ * cihazda (Huawei) ise `input` komutu bile fiziksel ekranın id'sini kullanıyor. `dev` sinyali sürüme bağlıdır. Aracı, finger/basınç/boyut/geçmiş örnekleri gerçekçi üretir; deviceId'yi değil.
  */
 public final class Injector {
     private static Object inputManager;

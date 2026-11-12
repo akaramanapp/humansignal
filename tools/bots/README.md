@@ -25,15 +25,19 @@ diğer öğeler resource-id / contentDescription ile bulunur (§4.3). Oturumu d�
 adb shell am broadcast -a io.humansignal.research.STOP -p io.humansignal.research
 ```
 
-### Emülatörde gözlenen ayırt edici sinyaller (Supabase'teki oturumlardan, `npm run inspect`)
+### Emülatörde (Android 11) gözlenen ayırt edici sinyaller (Supabase'teki oturumlardan, `npm run inspect`)
 
 | | naive / jitter | humanlike |
 |---|---|---|
 | `tool` | `unknown` | `finger` |
-| `dev` | -1 | **-1** (sistem enjekte olayın deviceId'sini korumuyor) |
+| `dev` | -1 | -1 (sistem enjekte olayın deviceId'sini korumuyor) |
 | MOVE / dokunma (medyan) | 0 | 13 |
 | DOWN→UP (medyan) | 0 ms | 86 ms |
 | basınç (farklı değer) | 2 (0/1) | 427, sd 0.12 |
+
+**Gerçek cihazda (Huawei, Android 10) fark:** `adb input tap` olayları `dev = 5` (gerçek dokunmatik ekranın id'si) ile
+geliyor — Android 10'un `input` komutu kaynak türüne uyan ilk fiziksel cihazın id'sini kullanır. `dev` bu yüzden sürüme
+bağlıdır; `tool = unknown` ve sıfır basılı kalma süresi her iki ortamda da tutarlıdır.
 
 ## Appium / UI Automator2 (`bot_tool = appium`) — `appium_bot.py`
 
