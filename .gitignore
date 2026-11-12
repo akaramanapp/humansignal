@@ -1,0 +1,45 @@
+# ---------------------------------------------------------------- gizli bilgiler (ASLA commit edilmez)
+# service_role anahtarı, veritabanı bağlantı dizesi
+.env
+.env.*
+!.env.example
+# Android SDK yolu + research-app API anahtarı (key:create --write-properties buraya yazar)
+local.properties
+*.keystore
+*.jks
+keystore.properties
+# Supabase CLI yerel durumu
+supabase/.branches/
+supabase/.temp/
+
+# ---------------------------------------------------------------- Android / Gradle
+.gradle/
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.ap_
+*.dex
+.kotlin/
+
+# ---------------------------------------------------------------- Node (api/)
+node_modules/
+dist/
+coverage/
+npm-debug.log*
+
+# ---------------------------------------------------------------- Python (tools/)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.parquet
+
+# ---------------------------------------------------------------- IDE / OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
+*.swp

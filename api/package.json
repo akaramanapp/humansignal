@@ -1,0 +1,35 @@
+{
+  "name": "humansignal-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "key:create": "tsx scripts/key-create.ts",
+    "db:migrate": "tsx scripts/db-migrate.ts",
+    "check:setup": "tsx scripts/check-setup.ts",
+    "inspect": "tsx scripts/inspect-session.ts",
+    "a10": "tsx scripts/a10-check.ts",
+    "key:revoke": "tsx scripts/key-revoke.ts"
+  },
+  "dependencies": {
+    "@fastify/rate-limit": "^10.3.0",
+    "@supabase/supabase-js": "^2.119.0",
+    "dotenv": "^16.6.1",
+    "fastify": "^5.12.8",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.7"
+  }
+}

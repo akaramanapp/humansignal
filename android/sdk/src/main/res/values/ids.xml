@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- §4.3 Bot erişilebilirliği: SecureKeypadView tuşlarının sabit resource-id'leri. -->
+<resources>
+    <item name="keypad_key_0" type="id" />
+    <item name="keypad_key_1" type="id" />
+    <item name="keypad_key_2" type="id" />
+    <item name="keypad_key_3" type="id" />
+    <item name="keypad_key_4" type="id" />
+    <item name="keypad_key_5" type="id" />
+    <item name="keypad_key_6" type="id" />
+    <item name="keypad_key_7" type="id" />
+    <item name="keypad_key_8" type="id" />
+    <item name="keypad_key_9" type="id" />
+    <item name="keypad_key_delete" type="id" />
+    <item name="keypad_key_submit" type="id" />
+</resources>

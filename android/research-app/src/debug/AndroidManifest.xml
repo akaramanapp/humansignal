@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <!-- YALNIZCA debug (§4.4): adb shell am broadcast -a io.humansignal.research.STOP -p io.humansignal.research -->
+        <receiver android:name=".DebugStopReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="io.humansignal.research.STOP" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>
