@@ -380,11 +380,17 @@ class Bot:
                     self.inp.tap((bx1 + bx2) / 2, (by1 + by2) / 2, radius=(by2 - by1) / 2); break
                 nums = [int(x.get("content-desc").rsplit("_", 1)[1]) for x in rows]
                 row_h = (bounds(rows[0])[3] - bounds(rows[0])[1]) if rows else 100
-                gap = (int(target) - max(nums)) if int(target) > max(nums) else (int(target) - min(nums)) if int(target) < min(nums) else 1
-                # Fırlatma (fling) olmadan, gerektiği kadar yavaş sürükle.
-                dist = max(row_h, min(abs(gap) * row_h + row_h, int((y2 - y1) * 0.8)))
+                slop = 70  # ListView kaydırmaya başlamadan önceki dokunma eşiği (px)
+                if n is not None:
+                    # Hedef görünüyor ama kesik: kesik olduğu kenara doğru az kaydır.
+                    sign = 1 if bounds(n)[3] > y2 else -1
+                    dist = row_h + slop
+                else:
+                    t = int(target)
+                    gap = t - max(nums) if t > max(nums) else t - min(nums)
+                    sign = 1 if gap > 0 else -1
+                    dist = min(abs(gap) * row_h + row_h // 2 + slop, int((y2 - y1) * 0.8))
                 cx, cy = (x1 + x2) / 2, (y1 + y2) / 2
-                sign = 1 if gap > 0 else -1
                 self.inp.drag(cx, cy + sign * dist / 2, cx, cy - sign * dist / 2, 900)
                 time.sleep(0.4)
             self.pause(0.6)
