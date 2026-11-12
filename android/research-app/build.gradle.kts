@@ -16,13 +16,13 @@ android {
         versionCode = 1
         versionName = "0.1.0-m1"
         // M4'te Ayarlar ekranından gelecek. Şimdilik gradle özelliği: -Phumansignal.apiUrl=… -Phumansignal.apiKey=…
-        // Varsayılanlar: emülatörden host makinedeki yerel API (DATA_BACKEND=memory, DEV_API_KEYS=app:dev-app-key).
         // Öncelik: -P özelliği → android/local.properties (git'e girmez; `npm run key:create -- --write-properties`) → dev varsayılanı
         val local = Properties().apply {
             rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
         }
         fun prop(k: String): String? = (project.findProperty(k) as String?) ?: local.getProperty(k)
-        val apiUrl = prop("humansignal.apiUrl") ?: "http://10.0.2.2:8787"
+        // Varsayılan: canlı API (Vercel). Yerel geliştirme: -Phumansignal.apiUrl=http://10.0.2.2:8787
+        val apiUrl = prop("humansignal.apiUrl") ?: "https://humansignal-fawn.vercel.app"
         val apiKey = prop("humansignal.apiKey") ?: "dev-app-key"
         buildConfigField("String", "DEFAULT_API_URL", "\"$apiUrl\"")
         buildConfigField("String", "DEFAULT_API_KEY", "\"$apiKey\"")

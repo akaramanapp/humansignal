@@ -38,7 +38,7 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home
 `startSession` toplayıcıları başlatır, ardından sunucuya kaydolmayı 3 sn dener; ağ yoksa yerel id ile devam eder ve Uploader bağlantı gelince kaydeder (A3 emülatörde doğrulandı).
 
 API adresi/anahtarı (M4'te Ayarlar ekranına taşınacak): `./gradlew :research-app:installDebug -Phumansignal.apiUrl=https://… -Phumansignal.apiKey=…`
-Varsayılan: `http://10.0.2.2:8787` + `dev-app-key` (`api/` bellek modu). Düz HTTP yalnızca debug'da ve yalnızca 10.0.2.2/localhost için açıktır.
+Varsayılan adres: `https://humansignal-fawn.vercel.app` (canlı API); anahtar `android/local.properties`'ten. Yerel API için: `-Phumansignal.apiUrl=http://10.0.2.2:8787` (düz HTTP yalnızca debug'da ve yalnızca 10.0.2.2/localhost için açık).
 
 Canlı API'ye sözleşme testi: `HS_API_URL=http://localhost:8787 HS_API_KEY=dev-app-key ./gradlew :sdk:testDebugUnitTest --tests '*LiveApiContractTest*'`
 

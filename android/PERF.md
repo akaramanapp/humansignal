@@ -1,9 +1,25 @@
 # Performans (SPEC §3.11)
 
-> Ölçümler **emülatörde** (Pixel_5 AVD, API 30, arm64, 4 çekirdek, Apple Silicon) ve JVM'de yapıldı, 2026-11-12.
-> §3.11'in hedef cihazı (2022 orta segment Samsung) ve pil ölçümü için gerçek cihazda Android Studio Profiler gerekir.
+> Ölçümler 2026-11-12: **gerçek cihaz Huawei YAL-L21** (Kirin 980, Android 10, EMUI 11, 8 çekirdek), emülatör
+> (Pixel_5 AVD, API 30) ve JVM. Pil ölçümü henüz yapılmadı.
 
-## Özet
+## Gerçek cihaz (Huawei YAL-L21) — belirleyici sonuç
+
+| Metrik | Hedef | Ölçüm | Durum |
+|---|---|---|---|
+| CPU — SDK (tek çekirdek) | < %5 | **~%19**: sensör thread %8,8 + IO thread %5,1 + GC ~%5,3 (`/proc/<pid>/task/*/stat`, 30 sn) | ❌ |
+| Ana thread, dokunma gözlemi | < 0,2 ms / olay | p50 **0,47 ms**, p99 **2,7 ms** (n = 140) | ❌ |
+| Bellek (ek heap) | < 25 MB | Java heap ~15,7 MB oturumda | ✅ |
+| Sensör hızı | — | acc 100,0 / gyr 100,0 Hz, istenen hızlara uyuyor | ✅ |
+
+Veri kalitesini etkilemiyor; Faz 1 araştırma oturumlarında (10 dk) kabul edilebilir. Faz 2 (bankacılık uygulaması) öncesi:
+1. `NumFmt.appendSig`: `BigDecimal` yerine ayırmasız (allocation-free) 5 anlamlı basamak biçimlendirme — IO thread ve GC payının çoğu.
+2. Dokunma satırını ana thread'de JSON'a kodlamak yerine alanları ilkel bir diziye kopyalayıp kodlamayı sensör/IO thread'ine taşımak.
+3. Sensör thread'i: olay başına iş zaten az; `maxReportLatencyUs` > 0 (donanım FIFO batching) uyanma sayısını düşürür, ama
+   SPEC §3.4 `0` istiyor — karar gerektirir.
+
+## Emülatör
+
 
 | Metrik | Hedef | Ölçüm (emülatör) | Durum |
 |---|---|---|---|
