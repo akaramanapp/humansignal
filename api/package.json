@@ -17,7 +17,8 @@
     "check:setup": "tsx scripts/check-setup.ts",
     "inspect": "tsx scripts/inspect-session.ts",
     "a10": "tsx scripts/a10-check.ts",
-    "key:revoke": "tsx scripts/key-revoke.ts"
+    "key:revoke": "tsx scripts/key-revoke.ts",
+    "progress": "tsx scripts/progress.ts"
   },
   "dependencies": {
     "@fastify/rate-limit": "^10.3.0",

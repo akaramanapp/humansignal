@@ -331,7 +331,28 @@ class Bot:
         self.tap_el(rid="consent_accept", scroll=True)
         time.sleep(1.5)
 
-    def setup(self, host):
+    def ensure_ready(self):
+        """Ekran açık mı, uygulama Kurulum/Özet'te mi? Değilse Geri ile oraya döner. Kilit açmaya çalışmaz."""
+        power = self.a.sh("dumpsys", "power")
+        if "mWakefulness=Awake" not in power:
+            raise SystemExit("Ekran kapalı/kilitli: telefonu açın (ve 'Uyanık kal'ı açın), sonra tekrar çalıştırın.")
+        for _ in range(4):
+            top = self.a.sh("dumpsys", "activity", "activities")
+            m = re.search(r"ResumedActivity: ?ActivityRecord\{[^}]*?/\.(\w+)", top)
+            act = m.group(1) if m else ""
+            if act in ("SetupActivity", "SummaryActivity"):
+                return
+            if act in ("TaskActivity",):
+                raise SystemExit("Açık bir oturum var: önce bitirin (STOP broadcast) ya da Özet'e geçin.")
+            if PKG not in top.split("ResumedActivity")[1][:200]:
+                self.a.sh("am", "start", "-n", f"{PKG}/.LauncherActivity")
+            else:
+                self.a.key("KEYCODE_BACK")  # ör. Canlı Sensör / Saat Testi → Kurulum
+            time.sleep(1.5)
+        raise SystemExit("Uygulama Oturum Kurulumu ekranına getirilemedi.")
+
+    def setup(self, host, placement=None):
+        self.ensure_ready()
         if self.find(rid="summary_new_session") is not None:
             self.tap_el(rid="summary_new_session"); time.sleep(1.5)
         self.wait(rid="setup_label_kind", timeout=10)
@@ -342,6 +363,8 @@ class Bot:
         if spinner is not None and host != "emulator_android_studio":
             self.a.tap(*center(spinner)); self.pause(0.8)
             self.tap_el(text=host)
+        if placement:  # §9.3: gerçek cihaz satırları telefonun konumuyla ayrılır
+            self.tap_el(desc=f"setup_placement_{placement}", scroll=True)
         self.tap_el(rid="setup_start", scroll=True)
         self.wait(rid="task_progress", timeout=15)
 
@@ -479,6 +502,8 @@ def main():
     ap.add_argument("--mode", default="naive", choices=list(MODES))
     ap.add_argument("--seed", type=int, help="tekrarlanabilir rastgelelik")
     ap.add_argument("--host", default="emulator_android_studio")
+    ap.add_argument("--placement", choices=["hand", "table", "holder", "lap", "other"],
+                    help="telefonun konumu (§9.3 gerçek cihaz satırları: table | holder | hand)")
     ap.add_argument("--first-run", action="store_true", help="Ayarlar + Rıza ekranlarını da geç")
     ap.add_argument("--tasks", default="t1,t2,t3,t4,t5,t6,t7", help="çalıştırılacak görevler; diğerleri 'Atla' ile geçilir")
     ap.add_argument("-s", "--serial")
@@ -490,7 +515,7 @@ def main():
     adb.start_marker_stream()
     if args.first_run:
         bot.first_run()
-    bot.setup(args.host)
+    bot.setup(args.host, args.placement)
     wanted = set(args.tasks.split(","))
     for t in ["t1", "t2", "t3", "t4", "t5", "t6", "t7"]:
         t0 = time.time()
